@@ -44,7 +44,7 @@ pytest = "^7.0.1"
 pytest-cov = "^3.0.0"
 
 [tool.poetry.scripts]
-app = "app.main:main"
+simulate = "app.main:main"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

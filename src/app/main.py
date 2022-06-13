@@ -1,3 +1,4 @@
+import argparse
 import logging
 
 import numpy as np
@@ -8,17 +9,11 @@ logging.basicConfig(level=config.LOG_LEVEL)
 
 
 n = 100000
-ps = [
-    0.45,
-    0.44,
-    0.37,
-    0.37,
-]
 
 
-def main() -> str:
+def compute(ps: list[int]) -> str:
     rng = np.random.default_rng(654654)
-    probs = np.array(ps)
+    probs = np.array([p / 100 for p in ps])
     print(f"Inputs: {probs}")
     # rands = np.random.random(len(ps))
     rands = rng.random((n, len(ps)))
@@ -34,3 +29,20 @@ def main() -> str:
         print(f"Exactly {elem}: {exact_prob} | {elem} or more: {exact_or_more_prob}")
         exact_summed += exact_prob
     assert np.isclose(exact_summed, 1)
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Provide some probabilities.")
+    parser.add_argument(
+        "probabilities",
+        metavar="N",
+        type=int,
+        nargs="+",
+        help="a list of probabilities for the simulation",
+    )
+    args = parser.parse_args()
+    compute(args.probabilities)
+
+
+if __name__ == "__main__":
+    main()
